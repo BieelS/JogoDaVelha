@@ -33,6 +33,13 @@ for (let i = 0; i < boxes.length; i++) {
 
             if (player1 == player2) {
                 player1++;
+
+                if(secondPlayer == 'ai-player') {
+
+                    //funcao  executar a jogada
+                    player2++;
+                }
+
             } else {
                 player2++;
             }
@@ -46,7 +53,25 @@ for (let i = 0; i < boxes.length; i++) {
     });
 }
 
+//evento para saber se é 2 players ou IA
+for(let i = 0; i < buttons.length; i++) {
 
+    buttons[i].addEventListener("click", function() {
+        
+        secondPlayer = this.getAttribute("id");
+
+        for(let j = 0; j < buttons.length; j++) {
+            buttons[j].style.display = 'none';
+        }
+
+        setTimeout(function() {
+            let container = document.querySelector("#container");
+            container.classList.remove("hide");
+        }, 300);
+    });
+}
+
+//ve quem vai jogar
 function checkEl(player1, player2) {
 
     if (player1 == player2) {
@@ -78,11 +103,11 @@ function checkWinCondition() {
         let b3Child = b3.childNodes[0].className;
 
         if (b1Child == 'x' && b2Child == 'x' && b3Child == 'x') {
-            alert("x ganhou");
+            declareWinner('x');
         } else if (b1Child == 'o' && b2Child == 'o' && b3Child == 'o') {
-            alert("o ganhou")
+            declareWinner('o');
         }
-        
+
     }
 
     if (b4.childNodes.length > 0 && b5.childNodes.length > 0 && b6.childNodes.length > 0) {
@@ -91,11 +116,11 @@ function checkWinCondition() {
         let b6Child = b6.childNodes[0].className;
 
         if (b4Child == 'x' && b5Child == 'x' && b6Child == 'x') {
-            alert("x ganhou");
+            declareWinner('x');
         } else if (b4Child == 'o' && b5Child == 'o' && b6Child == 'o') {
-            alert("o ganhou")
+            declareWinner('o');
         }
-        
+
     }
 
     if (b7.childNodes.length > 0 && b8.childNodes.length > 0 && b9.childNodes.length > 0) {
@@ -104,11 +129,11 @@ function checkWinCondition() {
         let b9Child = b9.childNodes[0].className;
 
         if (b7Child == 'x' && b8Child == 'x' && b9Child == 'x') {
-            alert("x ganhou");
+            declareWinner('x');
         } else if (b7Child == 'o' && b8Child == 'o' && b9Child == 'o') {
-            alert("o ganhou")
+            declareWinner('o');
         }
-        
+
     }
 
     //vertical 
@@ -118,11 +143,11 @@ function checkWinCondition() {
         let b7Child = b7.childNodes[0].className;
 
         if (b1Child == 'x' && b4Child == 'x' && b7Child == 'x') {
-            alert("x ganhou");
+            declareWinner('x');
         } else if (b1Child == 'o' && b4Child == 'o' && b7Child == 'o') {
-            alert("o ganhou")
+            declareWinner('o');
         }
-        
+
     }
 
     if (b2.childNodes.length > 0 && b5.childNodes.length > 0 && b8.childNodes.length > 0) {
@@ -131,11 +156,11 @@ function checkWinCondition() {
         let b8Child = b8.childNodes[0].className;
 
         if (b2Child == 'x' && b5Child == 'x' && b8Child == 'x') {
-            alert("x ganhou");
+            declareWinner('x');
         } else if (b2Child == 'o' && b5Child == 'o' && b8Child == 'o') {
-            alert("o ganhou")
+            declareWinner('o');
         }
-        
+
     }
 
     if (b3.childNodes.length > 0 && b6.childNodes.length > 0 && b9.childNodes.length > 0) {
@@ -144,11 +169,11 @@ function checkWinCondition() {
         let b9Child = b9.childNodes[0].className;
 
         if (b3Child == 'x' && b6Child == 'x' && b9Child == 'x') {
-            alert("x ganhou");
+            declareWinner('x');
         } else if (b3Child == 'o' && b6Child == 'o' && b9Child == 'o') {
-            alert("o ganhou")
+            declareWinner('o');
         }
-        
+
     }
 
     //diagonal
@@ -158,11 +183,11 @@ function checkWinCondition() {
         let b9Child = b9.childNodes[0].className;
 
         if (b1Child == 'x' && b5Child == 'x' && b9Child == 'x') {
-            alert("x ganhou");
+            declareWinner('x');
         } else if (b1Child == 'o' && b5Child == 'o' && b9Child == 'o') {
-            alert("o ganhou")
+            declareWinner('o');
         }
-        
+
     }
 
     if (b3.childNodes.length > 0 && b5.childNodes.length > 0 && b7.childNodes.length > 0) {
@@ -171,24 +196,24 @@ function checkWinCondition() {
         let b7Child = b7.childNodes[0].className;
 
         if (b3Child == 'x' && b5Child == 'x' && b7Child == 'x') {
-            alert("x ganhou");
+            declareWinner('x');
         } else if (b3Child == 'o' && b5Child == 'o' && b7Child == 'o') {
-            alert("o ganhou")
+            declareWinner('o');
         }
-        
+
     }
 
     //deu velha
     let counter = 0;
 
-    for(let i = 0; i < boxes.length; i++) {
-        if(boxes[i].childNodes[0] != undefined) {
+    for (let i = 0; i < boxes.length; i++) {
+        if (boxes[i].childNodes[0] != undefined) {
             counter++;
         }
     }
 
-    if(counter == 9) {
-        alert("Deu velha")
+    if (counter == 9) {
+        declareWinner('Deu velha!');
     }
 
 }
@@ -196,6 +221,38 @@ function checkWinCondition() {
 // limpa o jogo. declara o vencedor e atualiza o placar
 function declareWinner(winner) {
 
-    let scoreBoardX = document.querySelector("#scoreboard-1")
+    let scoreBoardX = document.querySelector("#scoreboard-1");
+    let scoreBoardY = document.querySelector("#scoreboard-2");
+    let msg = '';
+
+    if (winner == 'x') {
+        scoreBoardX.textContent = parseInt(scoreBoardX.textContent) + 1;
+        msg = "O jogador 1 venceu!";
+    } else if (winner == 'o') {
+        scoreBoardY.textContent = parseInt(scoreBoardY.textContent) + 1;
+        msg = "O jogador 2 venceu!";
+    } else {
+        msg = "Deu velha!";
+    }
+
+    //exibe msg
+    messageText.innerHTML = msg;
+    messageContainer.classList.remove("hide")
+
+    //esconde msg
+    setTimeout(function () {
+        messageContainer.classList.add("hide")
+    }, 3000)
+
+    //zera as jogadas
+    player1 = 0;
+    player2 = 0;
+
+    //remove x e o
+    let boxesToRemove = document.querySelectorAll(".box div");
+
+    for (let i = 0; i < boxesToRemove.length; i++) {
+        boxesToRemove[i].parentNode.removeChild(boxesToRemove[i]);
+    }
 
 }
