@@ -37,6 +37,7 @@ for (let i = 0; i < boxes.length; i++) {
                 if(secondPlayer == 'ai-player') {
 
                     //funcao  executar a jogada
+                    computerPlay();
                     player2++;
                 }
 
@@ -253,6 +254,38 @@ function declareWinner(winner) {
 
     for (let i = 0; i < boxesToRemove.length; i++) {
         boxesToRemove[i].parentNode.removeChild(boxesToRemove[i]);
+    }
+
+}
+
+//executar a logica da jogada do CPU
+function computerPlay() {
+
+    let cloneO = o.cloneNode(true);
+    counter = 0;
+    filled = 0;
+
+    for(let i = 0; i < boxes.length; i++) {
+
+        let randomNumber = Math.floor(Math.random() * 5);
+
+        //só preencher se estiver vazio o filho
+        if(boxes[i].childNodes[0] == undefined) {
+            if(randomNumber <= 1) {
+                boxes[i].appendChild(cloneO);
+                counter++;
+                break;
+            }
+
+         //checagem de quantas estão preenchidas   
+        } else {
+            filled++;
+        }
+
+    }
+
+    if(counter == 0 && filled < 9) {
+        computerPlay();
     }
 
 }
